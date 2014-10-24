@@ -20,10 +20,12 @@ import br.com.thiagopaz.utils.GPSUtils;
 public class MainActivity extends ActionBarActivity {
 
     private static final int SELECT_PICTURE = 1;
+    private static final int REQUEST_IMAGE_CAPTURE = 1;
     private static final String TAG = "MainActivity";
 
     private String selectedImagePath;
     private Button selectButton;
+    private Button cameraButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +42,17 @@ public class MainActivity extends ActionBarActivity {
                 startActivityForResult(Intent.createChooser(intent,"Select Picture"), SELECT_PICTURE);
             }
         });
+
+        cameraButton = (Button) findViewById(R.id.cameraButton);
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                if (takePictureIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+                }
+            }
+        });
     }
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
@@ -52,7 +65,6 @@ public class MainActivity extends ActionBarActivity {
                 //MEDIA GALLERY
                 selectedImagePath = getPath(selectedImageUri);
 
-                //NOW WE HAVE OUR WANTED STRING
                 if(selectedImagePath!=null) {
                     System.out.println("selectedImagePath is the right one for you!");
                     showImageInformation(selectedImagePath);
@@ -68,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
                 selectedImagePath = getPath(selectedImageUri);
                 showImageInformation(selectedImagePath);*/
             }
+            else if(requestCode == REQUEST_IMAGE_CAPTURE) {
+
+            }
         }
     }
 
@@ -75,11 +90,19 @@ public class MainActivity extends ActionBarActivity {
         try {
             ExifInterface exif = new ExifInterface(selectedImagePath);
             ShowExif(exif);
+            GPSUtils gpsCoord = new GPSUtils(exif);
+            showMap(gpsCoord);
         }
         catch(Exception ex) {
             ex.printStackTrace();
             Toast.makeText(this, "Error!",Toast.LENGTH_LONG).show();
         }
+    }
+
+    private void showMap(GPSUtils gpsCoord) {
+        Intent geoIntent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse("geo:" + gpsCoord.toString()));
+        // Use the Intent to start Google Maps application using Activity.startActivity()
+        startActivity(geoIntent);
     }
 
     private void ShowExif(ExifInterface exif)

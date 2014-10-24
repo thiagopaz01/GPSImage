@@ -14,4 +14,11 @@
         android:id="@+id/button"
         android:text="@string/select_file"/>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/cameraButton"
+        android:text="@string/open_camera"
+        android:layout_below="@+id/button"/>
+
 </RelativeLayout>
