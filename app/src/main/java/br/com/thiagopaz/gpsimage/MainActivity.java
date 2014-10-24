@@ -52,14 +52,6 @@ public class MainActivity extends ActionBarActivity {
                 //MEDIA GALLERY
                 selectedImagePath = getPath(selectedImageUri);
 
-                //DEBUG PURPOSE - you can delete this if you want
-                if(selectedImagePath!=null)
-                    System.out.println(selectedImagePath);
-                else System.out.println("selectedImagePath is null");
-                if(filemanagerstring!=null)
-                    System.out.println(filemanagerstring);
-                else System.out.println("filemanagerstring is null");
-
                 //NOW WE HAVE OUR WANTED STRING
                 if(selectedImagePath!=null) {
                     System.out.println("selectedImagePath is the right one for you!");
