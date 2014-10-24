@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import br.com.thiagopaz.utils.GPSUtils;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -93,10 +95,12 @@ public class MainActivity extends ActionBarActivity {
         String myAttribute="Exif information ---\n";
         myAttribute += getTagString(ExifInterface.TAG_DATETIME, exif);
         myAttribute += getTagString(ExifInterface.TAG_FLASH, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
+        /*myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE, exif);
         myAttribute += getTagString(ExifInterface.TAG_GPS_LATITUDE_REF, exif);
         myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE, exif);
-        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);
+        myAttribute += getTagString(ExifInterface.TAG_GPS_LONGITUDE_REF, exif);*/
+        GPSUtils gpsCoord = new GPSUtils(exif);
+        myAttribute += gpsCoord.toString() + "\n";
         myAttribute += getTagString(ExifInterface.TAG_IMAGE_LENGTH, exif);
         myAttribute += getTagString(ExifInterface.TAG_IMAGE_WIDTH, exif);
         myAttribute += getTagString(ExifInterface.TAG_MAKE, exif);
